@@ -87,8 +87,8 @@ defmodule Resuelve.TeamTest do
            ]) == 1
   end
 
-  test "calculate_team_full_salary/1 returns number less than 1 if team score is less than the team level score" do
-    assert Team.calculate_team_full_salary(@players) == [
+  test "calculate_team_full_salaries/1 returns number less than 1 if team score is less than the team level score" do
+    assert Team.calculate_team_full_salaries(@players) == [
              %{
                "bono" => 10000,
                "equipo" => "rojo",
@@ -126,5 +126,12 @@ defmodule Resuelve.TeamTest do
                "sueldo_completo" => 5.98e4
              }
            ]
+  end
+
+  test "process_team_salaries/1 returns string with the encoded JSON for the team with salaries" do
+    assert Team.process_team_salaries(
+             "[{\"nombre\":\"Luis\",\"nivel\":\"Cuauh\",\"goles\":19,\"sueldo\":50000,\"bono\":10000,\"sueldo_completo\":null,\"equipo\":\"rojo\"},{\"nombre\":\"Juan\",\"nivel\":\"A\",\"goles\":6,\"sueldo\":50000,\"bono\":10000,\"sueldo_completo\":null,\"equipo\":\"rojo\"},{\"nombre\":\"Pedro\",\"nivel\":\"B\",\"goles\":7,\"sueldo\":50000,\"bono\":10000,\"sueldo_completo\":null,\"equipo\":\"rojo\"},{\"nombre\":\"Mart\u00EDn\",\"nivel\":\"C\",\"goles\":16,\"sueldo\":50000,\"bono\":10000,\"sueldo_completo\":null,\"equipo\":\"rojo\"}]"
+           ) ==
+             "[{\"sueldo_completo\":59550.0,\"sueldo\":50000,\"nombre\":\"Luis\",\"goles_minimos\":20,\"goles\":19,\"equipo\":\"rojo\",\"bono\":10000},{\"sueldo_completo\":5.98e4,\"sueldo\":50000,\"nombre\":\"Juan\",\"goles_minimos\":5,\"goles\":6,\"equipo\":\"rojo\",\"bono\":10000},{\"sueldo_completo\":5.83e4,\"sueldo\":50000,\"nombre\":\"Pedro\",\"goles_minimos\":10,\"goles\":7,\"equipo\":\"rojo\",\"bono\":10000},{\"sueldo_completo\":5.98e4,\"sueldo\":50000,\"nombre\":\"Martín\",\"goles_minimos\":15,\"goles\":16,\"equipo\":\"rojo\",\"bono\":10000}]"
   end
 end

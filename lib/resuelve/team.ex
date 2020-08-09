@@ -19,7 +19,7 @@ defmodule Resuelve.Team do
     calculate_score_percentage(team_score, team_level_score)
   end
 
-  def calculate_team_full_salary(players) do
+  def calculate_team_full_salaries(players) do
     team_score_percentage = calculate_team_score_percentage(players)
 
     Enum.map(players, fn %{
@@ -32,10 +32,20 @@ defmodule Resuelve.Team do
       total_player_percentage = (individual_score + team_score_percentage) / 2
       full_salary = salary + total_player_percentage * bonus
 
-      %{player | "sueldo_completo" => full_salary}
-      |> Map.put("goles_minimos", @level_score[level])
+      player
       |> Map.delete("nivel")
+      |> Map.merge(%{
+        "goles_minimos" => @level_score[level],
+        "sueldo_completo" => full_salary
+      })
     end)
+  end
+
+  def process_team_salaries(players_binary) when is_binary(players_binary) do
+    players_binary
+    |> Poison.decode!()
+    |> calculate_team_full_salaries()
+    |> Poison.encode!()
   end
 
   defp calculate_percentage(number, total), do: number / total
