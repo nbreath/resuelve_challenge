@@ -1,39 +1,23 @@
 defmodule ResuelveWeb.PageLive do
   use ResuelveWeb, :live_view
+  alias Resuelve.Team
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, query: "", results: %{})}
+    {:ok, assign(socket, players_with_salaries: "")}
   end
 
   @impl true
-  def handle_event("suggest", %{"q" => query}, socket) do
-    {:noreply, assign(socket, results: search(query), query: query)}
-  end
+  def handle_event("suggest", %{"players-data" => players_data}, socket) do
+    socket =
+      case Team.process_team_salaries(players_data) do
+        {:ok, players_with_salaries} ->
+          assign(socket, players_with_salaries: players_with_salaries)
 
-  @impl true
-  def handle_event("search", %{"q" => query}, socket) do
-    case search(query) do
-      %{^query => vsn} ->
-        {:noreply, redirect(socket, external: "https://hexdocs.pm/#{query}/#{vsn}")}
+        {:error, _} ->
+          assign(socket, players_with_salaries: "Invalid data")
+      end
 
-      _ ->
-        {:noreply,
-         socket
-         |> put_flash(:error, "No dependencies found matching \"#{query}\"")
-         |> assign(results: %{}, query: query)}
-    end
-  end
-
-  defp search(query) do
-    if not ResuelveWeb.Endpoint.config(:code_reloader) do
-      raise "action disabled when not in development"
-    end
-
-    for {app, desc, vsn} <- Application.started_applications(),
-        app = to_string(app),
-        String.starts_with?(app, query) and not List.starts_with?(desc, ~c"ERTS"),
-        into: %{},
-        do: {app, vsn}
+    {:noreply, socket}
   end
 end

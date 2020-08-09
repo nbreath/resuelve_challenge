@@ -36,16 +36,24 @@ defmodule Resuelve.Team do
       |> Map.delete("nivel")
       |> Map.merge(%{
         "goles_minimos" => @level_score[level],
-        "sueldo_completo" => full_salary
+        "sueldo_completo" => round(full_salary)
       })
     end)
   end
 
-  def process_team_salaries(players_binary) when is_binary(players_binary) do
-    players_binary
-    |> Poison.decode!()
-    |> calculate_team_full_salaries()
-    |> Poison.encode!()
+  def process_team_salaries(players_binary) do
+    case Poison.decode(players_binary) do
+      {:ok, parsed_data} ->
+        players_salaries =
+          parsed_data
+          |> calculate_team_full_salaries()
+          |> Poison.encode!(pretty: true)
+
+        {:ok, players_salaries}
+
+      {:error, error} ->
+        {:error, error}
+    end
   end
 
   defp calculate_percentage(number, total), do: number / total
