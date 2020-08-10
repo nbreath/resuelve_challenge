@@ -1,0 +1,38 @@
+[  
+   {  
+      "nombre": "Luis",
+      "nivel": "Cuauh",
+      "goles": 19,
+      "sueldo": 50000,
+      "bono": 10000,
+      "sueldo_completo": null,
+      "equipo": "rojo"
+   },
+   {  
+      "nombre": "Juan",
+      "nivel": "A",
+      "goles": 6,
+      "sueldo": 50000,
+      "bono": 10000,
+      "sueldo_completo": null,
+      "equipo": "rojo"
+   },
+   {  
+      "nombre": "Pedro",
+      "nivel": "B",
+      "goles": 7,
+      "sueldo": 50000,
+      "bono": 10000,
+      "sueldo_completo": null,
+      "equipo": "rojo"
+   },
+   {  
+      "nombre": "Martín",
+      "nivel": "C",
+      "goles": 16,
+      "sueldo": 50000,
+      "bono": 10000,
+      "sueldo_completo": null,
+      "equipo": "rojo"
+   }
+]

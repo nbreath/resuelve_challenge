@@ -20,6 +20,14 @@ defmodule ResuelveWeb.Router do
     live "/", PageLive, :index
   end
 
+  scope "/api", ResuelveWeb, as: :api do
+    pipe_through :api
+
+    scope "/v1", Api.V1, as: :v1 do
+      resources "/team_salaries", TeamController, only: [:create]
+    end
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", ResuelveWeb do
   #   pipe_through :api

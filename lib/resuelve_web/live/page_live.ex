@@ -12,7 +12,9 @@ defmodule ResuelveWeb.PageLive do
     socket =
       case Team.process_team_salaries(players_data) do
         {:ok, players_with_salaries} ->
-          assign(socket, players_with_salaries: players_with_salaries)
+          assign(socket,
+            players_with_salaries: Poison.encode!(players_with_salaries, pretty: true)
+          )
 
         {:error, _} ->
           assign(socket, players_with_salaries: "Invalid data")

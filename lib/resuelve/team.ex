@@ -47,7 +47,6 @@ defmodule Resuelve.Team do
         players_salaries =
           parsed_data
           |> calculate_team_full_salaries()
-          |> Poison.encode!(pretty: true)
 
         {:ok, players_salaries}
 
