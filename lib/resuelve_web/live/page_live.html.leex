@@ -1,6 +1,6 @@
 <section class="row">
   <article class="column">
-    <form phx-change="suggest" phx-submit="search">
+    <form phx-change="suggest" phx-submit="search" phx-debounce="1000">
       <label for="players-data">Players list</label>
       <textarea type="text" name="players-data" placeholder="Paste your players information"></textarea>
     </form>
