@@ -8,7 +8,8 @@ To start your Phoenix server:
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-Paste a valid JSON structure with the team salaries in the `Playes List` text area.
+- Paste a valid JSON structure with the team salaries in the `Playes List` text area.
+- Make a `POST` request to `/api/v1/team_salaries` with a key called `players` with a valid team JSON file.
 
 
 
